@@ -1,0 +1,53 @@
+name: Build and Release for Windows
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      # 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 设置 Rust 环境
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          targets: x86_64-pc-windows-msvc
+
+      # 缓存依赖
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      # 获取版本
+      - name: get version
+        id: version
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: 'plugin.json'
+          prop_path: 'Version'
+
+      - run: echo ${{steps.version.outputs.prop}}
+
+      # 编译 Windows 二进制
+      - name: Build
+        run: cargo dabao
+
+      - name: Rename ZIP file
+        run:   Rename-Item -Path dist/youdao-translate.zip -NewName "youdao-translate-v${{steps.version.outputs.prop}}.zip"
+        shell: powershell
+
+      # 创建 Release 并上传二进制
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          body_path: CHANGELOG.md
+          token: ${{ secrets.MY_TOKEN   }}
+          files: "dist/youdao-translate-v${{steps.version.outputs.prop}}.zip"
