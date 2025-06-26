@@ -1,0 +1,17 @@
+body:
+  - type: passwordBox
+    attributes:
+      name: app_key
+      label: app_key
+      description: 应用id
+  - type: passwordBox
+    attributes:
+      name: app_secret
+      label: app_secret
+      description: 应用密钥
+  - type: input
+    attributes:
+      name: default_language
+      label: default_language
+      description: 默认翻译语言
+      defaultValue: zh-CHS

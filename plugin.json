@@ -1,0 +1,12 @@
+{
+  "ID":"922d88e9-eee4-4d7e-89c7-eb916bbf65fd",
+  "ActionKeyword":"yd",
+  "Name":"有道翻译",
+  "Description":"有道翻译",
+  "Author":"zy",
+  "Version":"0.0.1",
+  "Language":"executable",
+  "Website":"https://github.com",
+  "IcoPath":"Images\\icon.png",
+  "ExecuteFileName":"youdao-translate.exe"
+}

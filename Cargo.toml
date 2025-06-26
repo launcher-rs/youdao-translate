@@ -1,0 +1,28 @@
+[package]
+name = "youdao-translate"
+version = "0.1.0"
+edition = "2024"
+description = "Flow Launcher 有道翻译插件"
+authors = [ "cyberdoors" ]
+
+default-run = "youdao-translate"
+
+[[example]]
+name = "dev"
+path = "example/dev.rs"
+
+[[example]]
+name = "dabao"
+path = "example/dabao.rs"
+
+[dependencies]
+youdao = "0.3.0"
+arboard = "3.5.0"
+launcher-plugin = "0.1.1"
+
+
+
+[dev-dependencies]
+zip = "4.2.0"
+walkdir = "2.5.0"
+dotenvy = "0.15.7"
