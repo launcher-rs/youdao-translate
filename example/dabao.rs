@@ -1,12 +1,12 @@
 mod utils;
 
-use std::path::{PathBuf};
+use crate::utils::copy_dir_with_walkdir;
+use std::fs::File;
+use std::path::PathBuf;
 use std::process::Command;
 use std::{env, fs};
-use std::fs::File;
 use walkdir::WalkDir;
-use zip::write::{SimpleFileOptions};
-use crate::utils::copy_dir_with_walkdir;
+use zip::write::SimpleFileOptions;
 
 fn main() {
     #[cfg(target_os = "windows")]
@@ -16,7 +16,7 @@ fn main() {
 
         Command::new("cargo")
             .envs(env::vars())
-            .args(["build","--release"])
+            .args(["build", "--release"])
             .current_dir(PathBuf::from(dir))
             .spawn()
             .unwrap()
@@ -26,13 +26,10 @@ fn main() {
         let package_name = env::var("CARGO_PKG_NAME").unwrap();
         println!("package_name: {}", package_name);
 
-        let version = env::var("CARGO_PKG_VERSION").unwrap();
-        
-        let target_dir = PathBuf::from("dist")
-            .join(format!("{}-{}", package_name,version));
+        let bin_path = PathBuf::from("dist").join(format!("{}", package_name));
 
-        fs::create_dir_all(&target_dir).unwrap();
-        fs::create_dir_all(&target_dir.join("images")).unwrap();
+        fs::create_dir_all(&bin_path).unwrap();
+        fs::create_dir_all(&bin_path.join("images")).unwrap();
 
         // 获取可执行文件名
         let package_name = format!("{}.exe", package_name);
@@ -40,27 +37,25 @@ fn main() {
         let release_exe = PathBuf::from("target/release").join(&package_name);
 
         if release_exe.exists() {
-            fs::copy(&release_exe, &target_dir.join(&package_name)).unwrap();
+            fs::copy(&release_exe, &bin_path.join(&package_name)).unwrap();
         }
 
-        fs::copy("plugin.json", &target_dir.join("plugin.json")).expect("Unable to copy plugin.json");
-
+        fs::copy("plugin.json", &bin_path.join("plugin.json")).expect("Unable to copy plugin.json");
 
         let template = PathBuf::from("SettingsTemplate.yaml");
         if template.exists() {
-            fs::copy(&template, &target_dir.join(&template), ).unwrap();
+            fs::copy(&template, &bin_path.join(&template)).unwrap();
         }
-        
+
         let images_dir = PathBuf::from("Images");
         if images_dir.exists() {
-            let images_dst = target_dir.join(&images_dir);
-            copy_dir_with_walkdir(&images_dir,&images_dst).unwrap();
+            let images_dst = bin_path.join(&images_dir);
+            copy_dir_with_walkdir(&images_dir, &images_dst).unwrap();
         }
-        
 
         // 压缩
         // 创建一个 ZipWriter
-        let zip_path = format!("{}.zip", target_dir.display());
+        let zip_path = format!("{}.zip", bin_path.display());
         let file = File::create(zip_path).expect("Failed to create file");
 
         let mut zip = zip::ZipWriter::new(file);
@@ -69,12 +64,12 @@ fn main() {
             .compression_method(zip::CompressionMethod::Deflated)
             .unix_permissions(0o755);
 
-        for entry in WalkDir::new(&target_dir) {
+        for entry in WalkDir::new(&bin_path) {
             let entry = entry.unwrap();
             let path = entry.path();
 
             // 构造ZIP内的文件/目录名称（相对路径）
-            let name = path.strip_prefix(&target_dir).unwrap();
+            let name = path.strip_prefix(&bin_path).unwrap();
 
             if path.is_file() {
                 println!("添加文件：{}", path.display());
@@ -90,7 +85,7 @@ fn main() {
                 zip.add_directory(dir_name, options).unwrap();
             }
         }
-        
+
         zip.finish().unwrap();
         println!("压缩完成");
     }
