@@ -3,10 +3,10 @@
   "ActionKeyword":"yd",
   "Name":"有道翻译",
   "Description":"有道翻译",
-  "Author":"zy",
+  "Author":"cyberdoors",
   "Version":"0.1.0",
   "Language":"executable",
-  "Website":"https://github.com",
+  "Website":"https://github.com/launcher-rs/youdao-translate",
   "IcoPath":"Images\\icon.png",
   "ExecuteFileName":"youdao-translate.exe"
 }
