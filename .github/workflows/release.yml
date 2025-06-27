@@ -40,7 +40,7 @@ jobs:
         run: cargo dabao
 
       - name: Rename ZIP file
-        run:   Rename-Item -Path dist/youdao-translate.zip -NewName "youdao-translate-v${{steps.version.outputs.prop}}.zip"
+        run:   mv  dist/youdao-translate.zip  youdao-translate-v${{steps.version.outputs.prop}}.zip
         shell: powershell
 
       # 创建 Release 并上传二进制
