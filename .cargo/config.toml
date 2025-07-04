@@ -1,3 +1,11 @@
+# 可以使用私有git仓库, git 能访问cargo也就能访问
+[net]
+git-fetch-with-cli = true
+
+# 静态编译
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
+
 [alias]
 dev = "run --example dev"
 dabao = "run --example dabao"
