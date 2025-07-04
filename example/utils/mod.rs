@@ -1,5 +1,5 @@
-use std::{fs, io};
 use std::path::Path;
+use std::{fs, io};
 use walkdir::WalkDir;
 
 pub fn copy_dir_with_walkdir(src: &Path, dst: &Path) -> io::Result<()> {

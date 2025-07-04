@@ -26,10 +26,10 @@ fn main() {
         let package_name = env::var("CARGO_PKG_NAME").unwrap();
         println!("package_name: {}", package_name);
 
-        let bin_path = PathBuf::from("dist").join(format!("{}", package_name));
+        let bin_path = PathBuf::from("dist").join(&package_name);
 
         fs::create_dir_all(&bin_path).unwrap();
-        fs::create_dir_all(&bin_path.join("images")).unwrap();
+        fs::create_dir_all(bin_path.join("images")).unwrap();
 
         // 获取可执行文件名
         let package_name = format!("{}.exe", package_name);
@@ -37,14 +37,14 @@ fn main() {
         let release_exe = PathBuf::from("target/release").join(&package_name);
 
         if release_exe.exists() {
-            fs::copy(&release_exe, &bin_path.join(&package_name)).unwrap();
+            fs::copy(&release_exe, bin_path.join(&package_name)).unwrap();
         }
 
-        fs::copy("plugin.json", &bin_path.join("plugin.json")).expect("Unable to copy plugin.json");
+        fs::copy("plugin.json", bin_path.join("plugin.json")).expect("Unable to copy plugin.json");
 
         let template = PathBuf::from("SettingsTemplate.yaml");
         if template.exists() {
-            fs::copy(&template, &bin_path.join(&template)).unwrap();
+            fs::copy(&template, bin_path.join(&template)).unwrap();
         }
 
         let images_dir = PathBuf::from("Images");
