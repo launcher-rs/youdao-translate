@@ -1,8 +1,8 @@
 [package]
 name = "youdao-translate"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2024"
-description = "Flow Launcher 有道翻译插件"
+description = "使用rust编写的有道翻译插件"
 authors = [ "cyberdoors" ]
 
 default-run = "youdao-translate"
