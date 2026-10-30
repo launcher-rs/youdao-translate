@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -49,5 +52,5 @@ jobs:
         if: github.ref_type == 'tag'
         with:
           body_path: CHANGELOG.md
-          token: ${{ secrets.MY_TOKEN   }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           files: "dist/youdao-translate-v${{steps.version.outputs.prop}}.zip"
