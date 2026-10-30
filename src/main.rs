@@ -3,8 +3,6 @@ use launcher_plugin::jsonrpc::{
     JsonRpcAction, JsonRpcRequest, JsonRpcResponse, JsonRpcResponseDataBuilder, Method,
 };
 use std::env;
-use std::thread::sleep;
-use std::time::Duration;
 use youdao::{YouDaoClient, YouDaoConfig};
 
 const ICON_PATH: &str = "Images\\icon.png";
@@ -12,17 +10,14 @@ const ICON_PATH: &str = "Images\\icon.png";
 fn main() {
     let argument = env::args().nth(1).unwrap();
     let request = JsonRpcRequest::from(&argument).unwrap();
-    let input = request.get_parameter();
+    let input = request.parameter_or_default(0);
 
-    match request.method {
+    match &request.method {
         Method::Query => {
-            // 休眠0.5秒
-            sleep(Duration::from_millis(500));
             let settings = &request.settings;
             let app_secret = settings
                 .get("app_secret")
-                .unwrap()
-                .as_str()
+                .and_then(|value| value.as_str())
                 .unwrap_or_default()
                 .trim()
                 .to_string();
@@ -40,8 +35,7 @@ fn main() {
 
             let app_key = settings
                 .get("app_key")
-                .unwrap()
-                .as_str()
+                .and_then(|value| value.as_str())
                 .unwrap_or_default()
                 .trim()
                 .to_string();
@@ -59,9 +53,8 @@ fn main() {
 
             let default_language = settings
                 .get("default_language")
-                .unwrap()
-                .as_str()
-                .unwrap()
+                .and_then(|value| value.as_str())
+                .unwrap_or("zh-CHS")
                 .trim()
                 .to_string();
 
@@ -128,8 +121,8 @@ fn main() {
 
             request.set_response(context_menu_data).unwrap()
         }
-        Method::Custom(ref s) if s == "copy" => {
-            let content = request.get_parameter();
+        Method::Custom(method) if method == "copy" => {
+            let content = request.parameter_or_default(0);
             if !content.is_empty() {
                 // 复制到剪切板
                 let mut clipboard = Clipboard::new().unwrap();

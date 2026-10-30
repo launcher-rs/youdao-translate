@@ -1,6 +1,6 @@
 [package]
 name = "youdao-translate"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2024"
 description = "使用rust编写的有道翻译插件"
 authors = [ "cyberdoors" ]
@@ -18,7 +18,7 @@ path = "example/dabao.rs"
 [dependencies]
 youdao = "0.3.0"
 arboard = "3.5.0"
-launcher-plugin = "0.1.1"
+launcher-plugin = "0.2.0"
 
 
 

@@ -4,8 +4,9 @@
   "Name":"Youdao Translate",
   "Description":"使用rust编写的有道翻译插件",
   "Author":"launcher-rs",
-  "Version":"0.3.0",
+  "Version":"0.4.0",
   "Language":"executable",
+  "SearchDelayTime":500,
   "Website":"https://github.com/launcher-rs/youdao-translate",
   "IcoPath":"Images\\icon.png",
   "ExecuteFileName":"youdao-translate.exe"

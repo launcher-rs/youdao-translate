@@ -839,14 +839,13 @@ dependencies = [
 
 [[package]]
 name = "launcher-plugin"
-version = "0.1.1"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "821d201f13da58d9cccb51f093392e1e6df0289125725d076a3b80737c840d21"
+checksum = "aa445c1e41c7c4e7be4eb454d81fda2f9503e6169291c40713f379c0ebd6b43d"
 dependencies = [
  "serde",
  "serde_json",
  "thiserror",
- "tracing",
 ]
 
 [[package]]
@@ -1681,19 +1680,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "784e0ac535deb450455cbfa28a6f0df145ea1bb7ae51b821cf5e7927fdcfbdd0"
 dependencies = [
  "pin-project-lite",
- "tracing-attributes",
  "tracing-core",
-]
-
-[[package]]
-name = "tracing-attributes"
-version = "0.1.30"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "81383ab64e72a7a8b8e13130c49e3dab29def6d0c7d76a03087b3cf71c5c6903"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]
@@ -2246,7 +2233,7 @@ dependencies = [
 
 [[package]]
 name = "youdao-translate"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "arboard",
  "dotenvy",
